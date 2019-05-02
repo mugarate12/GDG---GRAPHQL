@@ -4,6 +4,8 @@ const userTypes = `
 
     id: ID!
     name: String!
+    username: String!
+    about: String
     email: String!
     createdAt: String!
     updatedAt: String!
@@ -13,6 +15,7 @@ const userTypes = `
   input UserCreateInput {
 
     name: String!
+    username: String!
     email: String!
     password: String!
 
@@ -21,6 +24,13 @@ const userTypes = `
   input UserUpdatePasswordInput {
 
     password: String!
+
+  }
+
+  input UserUpdateInput {
+
+    name: String
+    about: String
 
   }
 
@@ -36,7 +46,8 @@ const userQueries = `
 const userMutations = `
 
   createUser(input: UserCreateInput!): User
-  
+  updateUserPassword(input:UserUpdatePasswordInput!): User
+  updateUserProfile(input: UserUpdateInput!): User
 
 `;
 
