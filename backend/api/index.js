@@ -5,6 +5,7 @@ const http = require('http');
 
 // meus imports
 const app = require('./app');
+const db = require('./models/dbConnection');
 const {
   normalizePort,
   onError,
@@ -15,8 +16,15 @@ const {
 let server = http.createServer(app);
 const port = normalizePort(process.env.port || 3000);
 
-// rodar
-server.listen(port);
-server.on('error', onError(server));
-server.on('listening', onListening(server));
+// sincronizar com o banco
+db.sequelize.sync()
+  .then(() => {
+
+    // rodar
+    server.listen(port);
+    server.on('error', onError(server));
+    server.on('listening', onListening(server));
+
+  })
+
 

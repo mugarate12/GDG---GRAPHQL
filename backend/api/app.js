@@ -6,6 +6,7 @@ const graphQLHTTP = require('express-graphql');
 
 // meus imports
 const schema = require('./graphql/schema');
+const db = require('./models/dbConnection');
 
 // criar instancia do servidor
 let app = express();
@@ -16,6 +17,9 @@ app.use('/graphql',
   // aqui um middleware onde vou colocar o que precisar, como instancia do Banco e etc
   (req, res, next) => {
 
+    req['context'] = {};
+    req['context'].db = db;
+
     next();
 
   },
@@ -23,11 +27,13 @@ app.use('/graphql',
   graphQLHTTP((req, res, next) => ({
 
     schema,
-    graphiql: true
+    // 1 == development, 0 == production
+    graphiql: parseInt(process.env.NODE_ENV) === 1,
+    context: req.context
 
   }))
 
-)
+);
 
 // exportar meu server configurado
 module.exports = app;

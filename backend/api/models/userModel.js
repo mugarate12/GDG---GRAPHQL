@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 
     id: {
 
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
       autoIncrement: true
@@ -19,27 +19,38 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
 
-      type: Sequelize.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false
 
     },
     username: {
 
-      type: Sequelize.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
       unique: true
 
     },
+    password: {
+
+      type: DataTypes.STRING(128),
+      allowNull: false,
+      validate: {
+
+        notEmpty: true
+
+      }
+
+    },
     email: {
 
-      type: Sequelize.STRING(128),
+      type: DataTypes.STRING(128),
       allowNull: false,
       unique: true
 
     },
     about: {
 
-      type: Sequelize.STRING(300),
+      type: DataTypes.STRING(300),
       allowNull: true,
       defaultValue: null
 
