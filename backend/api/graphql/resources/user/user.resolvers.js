@@ -5,7 +5,7 @@ const userResolvers = {
   Query: {
 
     users: (parent, args, context, info) => {
-    
+
       let { first = 10, offset = 0 } = args;
       let { db } = context;
 
@@ -29,19 +29,19 @@ const userResolvers = {
         .findByPk(id)
         .then((userInstance) => {
 
-          if(!userInstance) throw new Error(`user with id ${id} not found`);
+          if (!userInstance) throw new Error(`user with id ${id} not found`);
 
           return userInstance
 
         });
-      
+
     }
 
   },
   Mutation: {
 
     createUser: (parent, args, context, info) => {
-      
+
       let { input } = args;
       let { db } = context;
 
@@ -51,7 +51,7 @@ const userResolvers = {
           .create(input, {
 
             transaction: Transaction
-            
+
           });
 
       });
@@ -110,8 +110,39 @@ const userResolvers = {
 
       });
 
+    },
+    deleteUser: (parent, args, context, info) => {
+
+      let { id } = args;
+      id = parseInt(id);
+
+      let { db } = context;
+
+      return db.sequelize.transaction((Transaction) => {
+
+        return db.user
+          .findByPk(id)
+          .then((userInstance) => {
+
+            if (!userInstance) throw new Error(`user with id ${id} not found`);
+
+              return userInstance.destroy({
+
+                transaction: Transaction
+
+              })
+              .then((userRemoved) => {
+
+                return !!userRemoved
+
+              });
+
+          });
+
+      })
+
     }
-    
+
 
   }
 

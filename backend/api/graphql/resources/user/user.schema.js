@@ -48,6 +48,7 @@ const userMutations = `
   createUser(input: UserCreateInput!): User
   updateUserPassword(id: ID!, input:UserUpdatePasswordInput!): User
   updateUserProfile(id: ID!, input: UserUpdateInput!): User
+  deleteUser(id:ID!): Boolean
 
 `;
 
