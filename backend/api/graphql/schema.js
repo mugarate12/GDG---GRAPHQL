@@ -1,5 +1,6 @@
 // imports
 const { makeExecutableSchema } = require('graphql-tools');
+const { merge } = require('lodash');
 
 // imports gerais dos modelos de Query e Mutation
 const { Query } = require('./query');
@@ -10,9 +11,12 @@ const { userTypes } = require('./resources/user/user.schema');
 const { postTypes } = require('./resources/post/post.schema');
 
 // meus resolvers
+const userResolvers = require('./resources/user/user.resolvers');
 
 // junção de todos os resolvers
-const resolvers = {};
+const resolvers = merge(
+  userResolvers
+);
 
 // definição generica do schema, essa já englobando todos acima(que vão estar, calma)
 const SchemaDefinition = `
@@ -34,5 +38,5 @@ module.exports = makeExecutableSchema({
     userTypes,
     postTypes
   ],
-  // resolvers
+  resolvers
 });
