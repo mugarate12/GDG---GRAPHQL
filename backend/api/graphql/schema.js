@@ -7,6 +7,7 @@ const { Mutation } = require('./mutation');
 
 // meus types
 const { userTypes } = require('./resources/user/user.schema');
+const { postTypes } = require('./resources/post/post.schema');
 
 // meus resolvers
 
@@ -30,7 +31,8 @@ module.exports = makeExecutableSchema({
     SchemaDefinition,
     Query,
     Mutation,
-    userTypes
+    userTypes,
+    postTypes
   ],
   // resolvers
 });
