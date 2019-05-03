@@ -12,10 +12,12 @@ const { postTypes } = require('./resources/post/post.schema');
 
 // meus resolvers
 const userResolvers = require('./resources/user/user.resolvers');
+const postResolvers = require('./resources/post/post.resolvers');
 
 // junção de todos os resolvers
 const resolvers = merge(
-  userResolvers
+  userResolvers,
+  postResolvers
 );
 
 // definição generica do schema, essa já englobando todos acima(que vão estar, calma)

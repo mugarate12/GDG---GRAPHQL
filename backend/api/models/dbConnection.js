@@ -19,7 +19,8 @@ if (!db) {
 
   const operatorsAlisses = {
 
-    $in: Sequelize.Op.in
+    $in: Sequelize.Op.in,
+    $and: Sequelize.Op.and
 
   };
 
