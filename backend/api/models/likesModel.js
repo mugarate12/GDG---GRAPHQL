@@ -13,27 +13,17 @@ module.exports = (sequelize, DataTypes) => {
       type: Sequelize.DataTypes.INTEGER,
       allowNull: false
 
+    },
+    idPost: {
+
+      type: DataTypes.INTEGER,
+      allowNull: false
+
     }
   },{
     sequelize,
     modelName: 'like'
   });
-
-  Like.associate = (models) => {
-
-    Like.belongsTo(models.post, {
-
-      foreignKey: {
-
-        allowNull: false,
-        field: 'idPost',
-        name: 'idPost'
-
-      }
-
-    });
-
-  }
 
   return Like;
 

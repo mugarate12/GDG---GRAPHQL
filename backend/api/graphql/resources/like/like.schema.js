@@ -11,15 +11,16 @@ const likeTypes = `
 
 const likeQueries = `
 
-  #provisorio, irá vim do token
-  likes(id: ID!): [ Like! ]!
+  #provisorio, irá vim do token, logo irei mokar o ID
+  likes: [Like!]!
 
 `;
 
 const likeMutations = `
 
-  like(idPost: ID!, idUser: ID!): Boolean
-  unlike(idPost: ID!, idUser: ID!): Boolean
+  #id mokado, padrão
+  like(idPost: Int!): Boolean
+  unlike(idPost: Int!): Boolean
 
 `;
 
