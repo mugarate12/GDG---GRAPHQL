@@ -78,7 +78,7 @@ const likeResolvers = {
         })
         .then((likeInstance) => {
 
-          if (!likeInstance) throw new Error(`user can't unlike one post with never liked`);
+          if (!likeInstance) throw new Error(`User can't unlike a/one post which it has never liked`);
 
           return db.sequelize.transaction((Transaction) => {
 

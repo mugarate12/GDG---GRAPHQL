@@ -2,6 +2,32 @@
 
 const userResolvers = {
 
+  User: {
+
+    friends: (parent, args, context, info) => {
+
+      // id mokado
+      let id = 1;
+
+      let { db } = context;
+
+
+      return db.friend
+        .findAll({
+
+          where: {
+
+            idUser: id
+
+          },
+          // attributes: ['idFriend']
+
+        })
+
+    }
+
+  },
+
   Query: {
 
     users: (parent, args, context, info) => {

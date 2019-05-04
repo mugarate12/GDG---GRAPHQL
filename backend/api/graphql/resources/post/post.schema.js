@@ -5,7 +5,7 @@ const postTypes = `
     id: ID!
     author: User!
     content: String!
-    likes: Int!
+    likes: [ Like! ]!
 
   }
 
@@ -29,7 +29,7 @@ const postQueries = `
   post(id: ID!): Post
   posts(first: Int, offset: Int): [ Post! ]!
   #a lista de ids vai vir do campos "friends" do USER
-  postByFriends(first: Int, offset: Int): [ Post! ]!
+  postByFriends(first: Int, offset: Int): [ Friend! ]!
 
 `;
 

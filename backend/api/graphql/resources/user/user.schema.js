@@ -9,6 +9,7 @@ const userTypes = `
     email: String!
     createdAt: String!
     updatedAt: String!
+    friends: [ Friend! ]!
 
   }
 

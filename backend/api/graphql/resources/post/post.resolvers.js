@@ -14,14 +14,25 @@ const postResolvers = {
 
           return userInstance
 
-        })
+        });
 
     },
-    // likes: (parent, args, context, info) => {
+    likes: (parent, args, context, info) => {
 
+      let { db } = context;
+      let idPost = parent.get('id');
 
+      // id mokado
+      let id = 1;
 
-    // }
+      return db.like
+        .findAll({
+
+          where: { idUser: id, idPost: idPost }
+
+        })
+
+    }
 
   },
 
@@ -47,8 +58,10 @@ const postResolvers = {
     },
     postByFriends: (parent, args, context, info) => {
 
-      // ids que irão vir do User.friends
-      let ids = [ 1, 3 ];
+      // // ids que irão vir do User.friends
+      // let ids = [ 1, 3 ];
+      // id mokado
+      let id = 1;
 
       let { db } = context;
 
@@ -62,6 +75,14 @@ const postResolvers = {
 
         });
 
+      // return db.friend
+      //   .findAll({
+
+      //     where: { idUser: id },
+      //     attributes: ['idFriend']
+
+      //   })
+
     }
 
   },
@@ -72,7 +93,7 @@ const postResolvers = {
       let { input } = args;
       let { db } = context;
 
-      // resolver isso, com autenticação
+      // resolver isso, com autenticação no token
       input.author = 3;
 
       return db.sequelize.transaction((Transaction) => {
