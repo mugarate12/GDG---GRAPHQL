@@ -5,7 +5,7 @@ const postTypes = `
     id: ID!
     author: User!
     content: String!
-    likes: [ Like! ]!
+    likes: Int!
 
   }
 

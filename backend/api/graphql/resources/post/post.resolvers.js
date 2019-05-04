@@ -26,9 +26,14 @@ const postResolvers = {
       let id = 1;
 
       return db.like
-        .findAll({
+        .findAndCountAll({
 
           where: { idUser: id, idPost: idPost }
+
+        })
+        .then((result) => {
+
+          return result.count
 
         })
 
