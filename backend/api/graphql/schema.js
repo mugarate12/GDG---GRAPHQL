@@ -9,6 +9,8 @@ const { Mutation } = require('./mutation');
 // meus types
 const { userTypes } = require('./resources/user/user.schema');
 const { postTypes } = require('./resources/post/post.schema');
+const { friendTypes } = require('./resources/friend/friend.schema');
+const { likeTypes } = require('./resources/like/like.schema');
 
 // meus resolvers
 const userResolvers = require('./resources/user/user.resolvers');
@@ -38,7 +40,9 @@ module.exports = makeExecutableSchema({
     Query,
     Mutation,
     userTypes,
-    postTypes
+    postTypes,
+    friendTypes,
+    likeTypes
   ],
   resolvers
 });
