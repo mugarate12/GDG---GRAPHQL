@@ -13,27 +13,33 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
 
+    },
+    idUser: {
+
+      type: DataTypes.INTEGER,
+      allowNull: false
+
     }
   },{
     sequelize,
     modelName: 'friend'
   });
 
-  Friend.associate = (models) => {
+  // Friend.associate = (models) => {
 
-    Friend.belongsTo(models.user, {
+  //   Friend.belongsTo(models.user, {
 
-      foreignKey: {
+  //     foreignKey: {
 
-        allowNull: false,
-        field: 'idUser',
-        name: 'idUser'
+  //       allowNull: false,
+  //       field: 'idUser',
+  //       name: 'idUser'
         
-      }
+  // //     }
 
-    });
+  // //   });
 
-  };
+  // };
 
   return Friend;
 

@@ -15,11 +15,13 @@ const { likeTypes } = require('./resources/like/like.schema');
 // meus resolvers
 const userResolvers = require('./resources/user/user.resolvers');
 const postResolvers = require('./resources/post/post.resolvers');
+const friendResolvers = require('./resources/friend/friend.resolvers');
 
 // junção de todos os resolvers
 const resolvers = merge(
   userResolvers,
-  postResolvers
+  postResolvers,
+  friendResolvers
 );
 
 // definição generica do schema, essa já englobando todos acima(que vão estar, calma)
