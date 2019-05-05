@@ -6,8 +6,7 @@ const userResolvers = {
 
     friends: (parent, args, context, info) => {
 
-      // id mokado
-      let id = 1;
+      let id = parent.get('id');
 
       let { db } = context;
 
@@ -46,20 +45,23 @@ const userResolvers = {
     },
     user: (parent, args, context, info) => {
 
-      let { id } = args;
-      id = parseInt(id);
+      let { username } = args;
 
       let { db } = context;
 
       return db.user
-        .findByPk(id)
+        .findOne({
+
+          where: { username: username }
+
+        })
         .then((userInstance) => {
 
-          if (!userInstance) throw new Error(`user with id ${id} not found`);
+          // capturar o erro
 
           return userInstance
 
-        });
+        })
 
     }
 
@@ -67,6 +69,8 @@ const userResolvers = {
   Mutation: {
 
     createUser: (parent, args, context, info) => {
+
+      // isso tem que devolver um token
 
       let { input } = args;
       let { db } = context;
@@ -85,6 +89,7 @@ const userResolvers = {
     },
     updateUserPassword: (parent, args, context, info) => {
 
+      // id vem do token
       let { input, id } = args;
       id = parseInt(id);
 
@@ -102,6 +107,10 @@ const userResolvers = {
               .update(input, {
 
                 transaction: Transaction
+
+              }).then((userInstanceUpdated) => {
+
+                return !!userInstanceUpdated
 
               });
 
@@ -112,6 +121,7 @@ const userResolvers = {
     },
     updateUserProfile: (parent, args, context, info) => {
 
+      // id vem do token
       let { input, id } = args;
       id = parseInt(id);
 
@@ -130,6 +140,10 @@ const userResolvers = {
 
                 transaction: Transaction
 
+              }).then((userInstanceUpdated) => {
+
+                return !!userInstanceUpdated
+
               });
 
           });
@@ -139,6 +153,7 @@ const userResolvers = {
     },
     deleteUser: (parent, args, context, info) => {
 
+      // id vem do token
       let { id } = args;
       id = parseInt(id);
 
@@ -152,11 +167,11 @@ const userResolvers = {
 
             if (!userInstance) throw new Error(`user with id ${id} not found`);
 
-              return userInstance.destroy({
+            return userInstance.destroy({
 
-                transaction: Transaction
+              transaction: Transaction
 
-              })
+            })
               .then((userRemoved) => {
 
                 return !!userRemoved
@@ -166,6 +181,88 @@ const userResolvers = {
           });
 
       })
+
+    },
+    addFriend: (parent, args, context, info) => {
+
+      // mocado, isso virá do token
+      let id = 1;
+
+      let { idFriend } = args;
+
+      let input = {};
+      input.idFriend = idFriend;
+      input.idUser = id;
+
+      let { db } = context;
+
+      return db.friend.findOne({
+
+        where: { idUser: input.idUser, idFriend: input.idFriend }
+
+      })
+      .then((friendInstance) => {
+
+        if(!!friendInstance) throw new Error(`user can't add a friend two times`);
+
+        return db.sequelize.transaction((Transaction) => {
+
+          return db.friend
+            .create(input, {
+
+              transaction: Transaction
+
+            })
+            .then((friendAdded) => {
+
+              return !!friendAdded
+
+            })
+
+        })
+
+      })
+
+    },
+    removeFriend: (parent, args, context, info) => { 
+
+      let { db } = context;
+
+      // id mokado, virá do token
+      let id = 1;
+
+      let { idFriend } = args;
+
+      let input = {};
+      input.idFriend = idFriend;
+      input.idUser = id;
+
+      return db.friend
+        .findOne({
+
+          where: { idUser: input.idUser, idFriend: input.idFriend }
+
+        })
+        .then((friendInstance) => {
+
+          if (!friendInstance) throw new Error(`user can't remove a friend which it has never added`);
+
+          return db.sequelize.transaction((Transaction) => {
+
+            return friendInstance.destroy({
+
+              transaction: Transaction
+
+            })
+            .then((friendRemoved) => {
+
+              return !!friendRemoved
+
+            })
+
+          })
+
+        })
 
     }
 

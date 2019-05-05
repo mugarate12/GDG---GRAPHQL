@@ -23,12 +23,12 @@ const postResolvers = {
       let idPost = parent.get('id');
 
       // id mokado
-      let id = 1;
+      // let id = 1;
 
       return db.like
         .findAndCountAll({
 
-          where: { idUser: id, idPost: idPost }
+          where: { idPost: idPost }
 
         })
         .then((result) => {
@@ -69,24 +69,41 @@ const postResolvers = {
       let id = 1;
 
       let { db } = context;
+      let { first = 10, offset = 0 } = args;
 
-      return db.post
+      return db.friend
         .findAll({
 
-          // esse operador ta bugando. Por que?
-          // Ta mais não, nem precisava
+          where: { idUser: id }
 
-          where: { author: ids }
+        })
+        .then((friendListInstance) => {
 
-        });
+          let ids = [];
 
-      // return db.friend
-      //   .findAll({
+          // resolver isso
 
-      //     where: { idUser: id },
-      //     attributes: ['idFriend']
+          for(let i = 0; i<Object.keys(friendListInstance).length;i++){
 
-      //   })
+            ids.push(friendListInstance[i].dataValues.idFriend)
+            console.log(ids.push(friendListInstance[i].dataValues.idFriend))
+          
+          }
+          // console.log(friendListInstance);
+          // console.log(Object.keys(friendListInstance).length);
+          // console.log(friendListInstance[1].dataValues.idFriend);
+          console.log(ids);
+
+          return db.post
+            .findAll({
+
+              where: { author: ids },
+              limit: first,
+              offset: offset
+
+            });
+
+        })
 
     }
 
@@ -107,7 +124,7 @@ const postResolvers = {
           .create(input, {
 
             transaction: Transaction
-            
+
           });
 
       });
@@ -115,6 +132,7 @@ const postResolvers = {
     },
     updatePost: (parent, args, context, info) => {
 
+      // id vindo do token
       let { input, id } = args;
       id = parseInt(id);
 
@@ -142,6 +160,7 @@ const postResolvers = {
     },
     deletePost: (parent, args, context, info) => {
 
+      // id vindo do token
       let { id } = args;
       id = parseInt(id);
 
@@ -170,12 +189,85 @@ const postResolvers = {
           });
 
       });
-      
+
     },
-    likeOrUnlike: (parent, args, context, info) => {
+    addLike: (parent, args, context, info) => {
 
-      // implementar isso de acordo com o id do user que ta curtindo
+      // id vindo do token
+      let id = 1;
 
+      let { db } = context;
+      let { idPost } = args;
+
+      return db.like
+        .findOne({
+
+          where: { idUser: id, idPost: idPost }
+
+        })
+        .then((likeInstance) => {
+
+          // como truthy, isso retorna true(likeInstance) quando já existe um documento com esse idUser
+          // localStorage, somente entra no if quando já existe
+          if (!!likeInstance) throw new Error(`user can't like two times`);
+
+          return db.sequelize.transaction((Transaction) => {
+
+            return db.like
+              .create({ idPost: idPost, idUser: id }, {
+
+                transaction: Transaction
+
+              })
+              .then((likeCreated) => {
+
+                return !!likeCreated
+
+              });
+
+          })
+
+        })
+
+    },
+    removeLike: (parent, args, context, info) => {
+
+      // id vindo do token
+      let id = 1;
+
+      let { db } = context;
+      let { idPost } = args;
+
+      return db.like
+        .findOne({
+
+          where: { idPost: idPost, idUser: id }
+
+        })
+        .then((likeInstance) => {
+
+          if (!likeInstance) throw new Error(`User can't unlike a/one post which it has never liked`);
+
+
+          // console.log(!likeInstance);
+
+          return db.sequelize.transaction((Transaction) => {
+
+            return likeInstance
+              .destroy({
+
+                transaction: Transaction
+
+              })
+              .then((likeRemoved) => {
+
+                return !!likeRemoved;
+
+              });
+
+          })
+
+        })
 
     }
 
