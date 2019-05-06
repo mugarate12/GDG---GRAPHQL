@@ -11,6 +11,7 @@ const { userTypes } = require('./resources/user/user.schema');
 const { postTypes } = require('./resources/post/post.schema');
 const { friendTypes } = require('./resources/friend/friend.schema');
 const { likeTypes } = require('./resources/like/like.schema');
+const { tokenTypes } = require('./resources/token/token.schema');
 
 // meus resolvers
 const userResolvers = require('./resources/user/user.resolvers');
@@ -46,7 +47,8 @@ module.exports = makeExecutableSchema({
     userTypes,
     postTypes,
     friendTypes,
-    likeTypes
+    likeTypes,
+    tokenTypes
   ],
   resolvers
 });

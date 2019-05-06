@@ -5,7 +5,7 @@
   "main": "api/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "set NODE_ENV=1 &&nodemon"
+    "dev": "set NODE_ENV=1 &&set JWT_SECRET='qualquerUM' &&nodemon"
   },
   "keywords": [],
   "author": "",

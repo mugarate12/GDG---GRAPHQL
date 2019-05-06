@@ -1,5 +1,6 @@
 // meus imports
 const { handleError, throwError } = require('./../../../utils/utils');
+const createToken = require('./../token/createToken');
 
 const userResolvers = {
 
@@ -83,6 +84,49 @@ const userResolvers = {
         })
         .catch((error) => handleError(error));
 
+    },
+    loginUser: (parent, args, context, info) => {
+
+      let { db } = context;
+
+      let { input } = args;
+      let search = {};
+
+      if ( input.email !== undefined && input.username === undefined){
+
+        search.email = input.email;
+        search.password = input.password;
+
+      } else if (input.email === undefined && input.username !== undefined){
+
+        search.username = input.username;
+        search.password = input.password;
+
+      } else if ( input.email !== undefined && input.username !== undefined ){
+
+        search.username = input.username;
+        search.email = input.email;
+        search.password = input.password;
+
+      }
+
+      return db.user
+        .findOne({
+
+          where: { ...search }
+
+        })
+        .then((userInstance) => {
+
+          return createToken(userInstance.id);
+
+        })
+        .catch((error) => {
+
+          throwError(error, 'user with username, password or email incorret or not exists');
+
+        })
+
     }
 
   },
@@ -105,7 +149,10 @@ const userResolvers = {
           })
           .then((userInstance) => {
 
-            return userInstance
+            // console.log(createToken(userInstance.id));
+
+            // return userInstance
+            return createToken(userInstance.id);
 
           })
           .catch((userInstance) => {
@@ -133,7 +180,7 @@ const userResolvers = {
           .then((userInstance) => {
 
             // if (!userInstance) throw new Error(`user with id ${id} not found`);
-            throwError(!userInstance, `user with id ${id} not found`)
+            throwError(!userInstance, `user with id ${id} not found`);
 
             return userInstance
               .update(input, {

@@ -36,18 +36,27 @@ const userTypes = `
 
   }
 
+  input LoginInput {
+
+    email: String
+    username: String
+    password: String!
+
+  }
+
 `;
 
 const userQueries = `
 
   users(first: Int, offset: Int): [ User! ]!
   user(username: String!): User
+  loginUser(input: LoginInput): Token
 
 `;
 
 const userMutations = `
 
-  createUser(input: UserCreateInput!): User
+  createUser(input: UserCreateInput!): Token
   updateUserPassword(id: ID!, input:UserUpdatePasswordInput!): Boolean
   updateUserProfile(id: ID!, input: UserUpdateInput!): Boolean
   deleteUser(id:ID!): Boolean

@@ -86,10 +86,10 @@ const postResolvers = {
 
           // resolver isso
 
-          for(let i = 0; i<Object.keys(friendListInstance).length;i++){
+          for (let i = 0; i < Object.keys(friendListInstance).length; i++) {
 
             ids.push(friendListInstance[i].dataValues.idFriend)
-          
+
           }
 
           return db.post
@@ -97,7 +97,8 @@ const postResolvers = {
 
               where: { author: ids },
               limit: first,
-              offset: offset
+              offset: offset,
+              order: [['updatedAt']]
 
             })
             .catch((error) => handleError(error));
@@ -128,12 +129,13 @@ const postResolvers = {
           });
 
       })
-      .catch((error) => handleError(error));
+        .catch((error) => handleError(error));
 
     },
     updatePost: (parent, args, context, info) => {
 
       // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
+      let idUSer = 1;
 
       // id do post
       let { input, id } = args;
@@ -144,7 +146,11 @@ const postResolvers = {
       return db.sequelize.transaction((Transaction) => {
 
         return db.post
-          .findByPk(id)
+          .findOne({
+
+            where: { author: idUSer, id: id }
+
+          })
           .then((postInstance) => {
 
             // capturar o erro
@@ -160,12 +166,13 @@ const postResolvers = {
           });
 
       })
-      .catch((error) => handleError(error));
+        .catch((error) => handleError(error));
 
     },
     deletePost: (parent, args, context, info) => {
 
       // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
+      let idUser = 1;
 
       // id do post
       let { id } = args;
@@ -176,7 +183,11 @@ const postResolvers = {
       return db.sequelize.transaction((Transaction) => {
 
         return db.post
-          .findByPk(id)
+          .findOne({
+
+            where: { author: idUser, id: id }
+
+          })
           .then((postInstance) => {
 
             // capturar erro
@@ -198,7 +209,7 @@ const postResolvers = {
           });
 
       })
-      .catch((error) => handleError(error));
+        .catch((error) => handleError(error));
 
     },
     addLike: (parent, args, context, info) => {
@@ -278,7 +289,7 @@ const postResolvers = {
               });
 
           })
-          .catch((error) => handleError(error));
+            .catch((error) => handleError(error));
 
         })
         .catch((error) => handleError(error));

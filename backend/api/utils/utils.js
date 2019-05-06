@@ -69,12 +69,15 @@ const throwError = (condition, message) => {
 
 }
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 module.exports = {
 
   normalizePort,
   onError,
   onListening,
   handleError,
-  throwError
+  throwError,
+  JWT_SECRET
 
 }
