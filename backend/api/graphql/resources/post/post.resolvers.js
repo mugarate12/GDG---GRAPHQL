@@ -117,7 +117,7 @@ const postResolvers = {
       let { db } = context;
 
       // resolver isso, com autenticação no token
-      input.author = 3;
+      input.author = 1;
 
       return db.sequelize.transaction((Transaction) => {
 

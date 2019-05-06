@@ -1,6 +1,8 @@
 // meus imports
 const { handleError, throwError } = require('./../../../utils/utils');
 const createToken = require('./../token/createToken');
+const authToken = require('./../token/validators/authValidator');
+const verifyToken = require('./../token/validators/verifyToken.validators');
 
 const userResolvers = {
 
@@ -48,6 +50,9 @@ const userResolvers = {
   Query: {
 
     users: (parent, args, context, info) => {
+
+      console.log(authToken(context));
+      console.log(verifyToken(context));
 
       let { first = 10, offset = 0 } = args;
       let { db } = context;

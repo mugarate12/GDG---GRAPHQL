@@ -7,6 +7,7 @@ const graphQLHTTP = require('express-graphql');
 // meus imports
 const schema = require('./graphql/schema');
 const db = require('./models/dbConnection');
+const extractJwtMiddleware = require('./middlewares/extract-jwt');
 
 // criar instancia do servidor
 let app = express();
@@ -14,10 +15,12 @@ let app = express();
 // middlewares
 app.use('/graphql',
 
+  extractJwtMiddleware(),
+
   // aqui um middleware onde vou colocar o que precisar, como instancia do Banco e etc
   (req, res, next) => {
 
-    req['context'] = {};
+    // req['context'] = {};
     req['context'].db = db;
 
     next();
