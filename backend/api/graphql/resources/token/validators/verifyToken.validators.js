@@ -19,13 +19,15 @@ const verifyToken = (context) => {
 
     jwt.verify(token, JWT_SECRET, (error, decoded) => {
 
-      return true
+      if (decoded) { return true };
+      throwError(error, 'token invalid');
+
+      
 
     })
 
   } 
 
-  throw new Error('token not valid');
 
 }
 

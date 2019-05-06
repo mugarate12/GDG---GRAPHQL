@@ -21,6 +21,8 @@ const extractJwtMiddleware = () => {
 
     jwt.verify(token, JWT_SECRET, (error, decoded) => {
 
+      if (error) return next();
+
       db.user
         .findByPk(decoded.sub)
         .then((userInstance) => {
