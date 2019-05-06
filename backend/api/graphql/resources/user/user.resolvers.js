@@ -76,7 +76,7 @@ const userResolvers = {
         .then((userInstance) => {
 
           // capturar o erro
-          throwError(!!userInstance, `user instance with username ${username} not found`);
+          throwError(!userInstance, `user instance with username ${username} not found`);
 
           return userInstance
 
@@ -102,10 +102,20 @@ const userResolvers = {
 
             transaction: Transaction
 
+          })
+          .then((userInstance) => {
+
+            return userInstance
+
+          })
+          .catch((userInstance) => {
+
+            throwError(userInstance, `user with with username ${input.username} or email ${input.email} already exists`);
+
           });
 
       })
-        .catch((error) => handleError(error));
+      .catch((error) => handleError(error));
 
     },
     updateUserPassword: (parent, args, context, info) => {

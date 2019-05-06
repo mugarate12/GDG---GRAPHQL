@@ -133,7 +133,9 @@ const postResolvers = {
     },
     updatePost: (parent, args, context, info) => {
 
-      // id vindo do token
+      // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
+
+      // id do post
       let { input, id } = args;
       id = parseInt(id);
 
@@ -163,7 +165,9 @@ const postResolvers = {
     },
     deletePost: (parent, args, context, info) => {
 
-      // id vindo do token
+      // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
+
+      // id do post
       let { id } = args;
       id = parseInt(id);
 
