@@ -54,10 +54,27 @@ const onListening = (server) => {
 
 }
 
+// com fim de capturar erros das minhas consultas ao banco
+const handleError = (error) => {
+  
+  let message = `${error.name} : ${error.message}`;
+
+  return Promise.reject(new Error(message));
+
+}
+
+const throwError = (condition, message) => {
+  
+  if (condition) throw new Error(message);
+
+}
+
 module.exports = {
 
   normalizePort,
   onError,
-  onListening
+  onListening,
+  handleError,
+  throwError
 
 }

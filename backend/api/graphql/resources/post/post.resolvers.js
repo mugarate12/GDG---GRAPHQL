@@ -1,4 +1,5 @@
 // meus imports
+const { handleError, throwError } = require('./../../../utils/utils');
 
 const postResolvers = {
 
@@ -14,7 +15,8 @@ const postResolvers = {
 
           return userInstance
 
-        });
+        })
+        .catch((error) => handleError(error));
 
     },
     likes: (parent, args, context, info) => {
@@ -36,6 +38,7 @@ const postResolvers = {
           return result.count
 
         })
+        .catch((error) => handleError(error));
 
     }
 
@@ -55,16 +58,16 @@ const postResolvers = {
         .then((postInstance) => {
 
           // capturar o erro
+          throwError(!postInstance, `post with id ${id} not found`);
 
           return postInstance
 
-        });
+        })
+        .catch((error) => handleError(error));
 
     },
     postByFriends: (parent, args, context, info) => {
 
-      // // ids que irão vir do User.friends
-      // let ids = [ 1, 3 ];
       // id mokado
       let id = 1;
 
@@ -86,13 +89,8 @@ const postResolvers = {
           for(let i = 0; i<Object.keys(friendListInstance).length;i++){
 
             ids.push(friendListInstance[i].dataValues.idFriend)
-            console.log(ids.push(friendListInstance[i].dataValues.idFriend))
           
           }
-          // console.log(friendListInstance);
-          // console.log(Object.keys(friendListInstance).length);
-          // console.log(friendListInstance[1].dataValues.idFriend);
-          console.log(ids);
 
           return db.post
             .findAll({
@@ -101,9 +99,11 @@ const postResolvers = {
               limit: first,
               offset: offset
 
-            });
+            })
+            .catch((error) => handleError(error));
 
         })
+        .catch((error) => handleError(error));
 
     }
 
@@ -127,7 +127,8 @@ const postResolvers = {
 
           });
 
-      });
+      })
+      .catch((error) => handleError(error));
 
     },
     updatePost: (parent, args, context, info) => {
@@ -145,6 +146,7 @@ const postResolvers = {
           .then((postInstance) => {
 
             // capturar o erro
+            throwError(!postInstance, `post with id ${id} not found`);
 
             return postInstance
               .update(input, {
@@ -155,7 +157,8 @@ const postResolvers = {
 
           });
 
-      });
+      })
+      .catch((error) => handleError(error));
 
     },
     deletePost: (parent, args, context, info) => {
@@ -173,6 +176,7 @@ const postResolvers = {
           .then((postInstance) => {
 
             // capturar erro
+            throwError(!postInstance, `post with id ${id} not found`);
 
             return postInstance
               .destroy({
@@ -184,11 +188,13 @@ const postResolvers = {
 
                 return !!postRemoved
 
-              });
+              })
+              .catch((error) => handleError(error));
 
           });
 
-      });
+      })
+      .catch((error) => handleError(error));
 
     },
     addLike: (parent, args, context, info) => {
@@ -209,7 +215,8 @@ const postResolvers = {
 
           // como truthy, isso retorna true(likeInstance) quando já existe um documento com esse idUser
           // localStorage, somente entra no if quando já existe
-          if (!!likeInstance) throw new Error(`user can't like two times`);
+          // if (!!likeInstance) throw new Error(`user can't like two times`);
+          throwError(!!likeInstance, `user can't like two times`);
 
           return db.sequelize.transaction((Transaction) => {
 
@@ -228,6 +235,7 @@ const postResolvers = {
           })
 
         })
+        .catch((error) => handleError(error));
 
     },
     removeLike: (parent, args, context, info) => {
@@ -246,8 +254,8 @@ const postResolvers = {
         })
         .then((likeInstance) => {
 
-          if (!likeInstance) throw new Error(`User can't unlike a/one post which it has never liked`);
-
+          // if (!likeInstance) throw new Error(`User can't unlike a/one post which it has never liked`);
+          throwError(!likeInstance, `User can't unlike a/one post which it has never liked`);
 
           // console.log(!likeInstance);
 
@@ -266,8 +274,10 @@ const postResolvers = {
               });
 
           })
+          .catch((error) => handleError(error));
 
         })
+        .catch((error) => handleError(error));
 
     }
 

@@ -11,7 +11,6 @@ const Query = `
     ${userQueries}
     ${postQueries}
     ${friendQueries}
-    ${likeQueries}
 
   }
 

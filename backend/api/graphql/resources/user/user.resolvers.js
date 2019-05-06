@@ -1,4 +1,5 @@
 // meus imports
+const { handleError, throwError } = require('./../../../utils/utils');
 
 const userResolvers = {
 
@@ -22,6 +23,22 @@ const userResolvers = {
           // attributes: ['idFriend']
 
         })
+        .catch((error) => handleError(error));
+
+    },
+    posts: (parent, args, context, info) => {
+
+      let id = parent.get('id');
+
+      let { db } = context;
+
+      return db.post
+        .findAll({
+
+          where: { author: id }
+
+        })
+        .catch((error) => handleError(error));
 
     }
 
@@ -40,7 +57,8 @@ const userResolvers = {
           limit: first,
           offset: offset
 
-        });
+        })
+        .catch((error) => handleError(error));
 
     },
     user: (parent, args, context, info) => {
@@ -58,10 +76,12 @@ const userResolvers = {
         .then((userInstance) => {
 
           // capturar o erro
+          throwError(!!userInstance, `user instance with username ${username} not found`);
 
           return userInstance
 
         })
+        .catch((error) => handleError(error));
 
     }
 
@@ -84,7 +104,8 @@ const userResolvers = {
 
           });
 
-      });
+      })
+        .catch((error) => handleError(error));
 
     },
     updateUserPassword: (parent, args, context, info) => {
@@ -101,7 +122,8 @@ const userResolvers = {
           .findByPk(id)
           .then((userInstance) => {
 
-            if (!userInstance) throw new Error(`user with id ${id} not found`);
+            // if (!userInstance) throw new Error(`user with id ${id} not found`);
+            throwError(!userInstance, `user with id ${id} not found`)
 
             return userInstance
               .update(input, {
@@ -116,7 +138,8 @@ const userResolvers = {
 
           });
 
-      });
+      })
+        .catch((error) => handleError(error));
 
     },
     updateUserProfile: (parent, args, context, info) => {
@@ -133,7 +156,8 @@ const userResolvers = {
           .findByPk(id)
           .then((userInstance) => {
 
-            if (!userInstance) throw new Error(`user with id ${id} not found`);
+            // if (!userInstance) throw new Error(`user with id ${id} not found`);
+            throwError(!userInstance, `user with id ${id} not found`);
 
             return userInstance
               .update(input, {
@@ -148,7 +172,8 @@ const userResolvers = {
 
           });
 
-      });
+      })
+        .catch((error) => handleError(error));
 
     },
     deleteUser: (parent, args, context, info) => {
@@ -165,7 +190,8 @@ const userResolvers = {
           .findByPk(id)
           .then((userInstance) => {
 
-            if (!userInstance) throw new Error(`user with id ${id} not found`);
+            // if (!userInstance) throw new Error(`user with id ${id} not found`);
+            throwError(!userInstance, `user with id ${id} not found`);
 
             return userInstance.destroy({
 
@@ -181,6 +207,7 @@ const userResolvers = {
           });
 
       })
+        .catch((error) => handleError(error));
 
     },
     addFriend: (parent, args, context, info) => {
@@ -201,30 +228,33 @@ const userResolvers = {
         where: { idUser: input.idUser, idFriend: input.idFriend }
 
       })
-      .then((friendInstance) => {
+        .then((friendInstance) => {
 
-        if(!!friendInstance) throw new Error(`user can't add a friend two times`);
+          // if (!!friendInstance) throw new Error(`user can't add a friend two times`);
+          throwError(!!friendInstance, `user can't add a friend two times`);
 
-        return db.sequelize.transaction((Transaction) => {
+          return db.sequelize.transaction((Transaction) => {
 
-          return db.friend
-            .create(input, {
+            return db.friend
+              .create(input, {
 
-              transaction: Transaction
+                transaction: Transaction
 
-            })
-            .then((friendAdded) => {
+              })
+              .then((friendAdded) => {
 
-              return !!friendAdded
+                return !!friendAdded
 
-            })
+              })
+
+          })
+            .catch((error) => handleError(error));
 
         })
-
-      })
+        .catch((error) => handleError(error));
 
     },
-    removeFriend: (parent, args, context, info) => { 
+    removeFriend: (parent, args, context, info) => {
 
       let { db } = context;
 
@@ -245,7 +275,8 @@ const userResolvers = {
         })
         .then((friendInstance) => {
 
-          if (!friendInstance) throw new Error(`user can't remove a friend which it has never added`);
+          // if (!friendInstance) throw new Error(`user can't remove a friend which it has never added`);
+          throwError(!friendInstance, `user can't remove a friend which it has never added`);
 
           return db.sequelize.transaction((Transaction) => {
 
@@ -254,15 +285,17 @@ const userResolvers = {
               transaction: Transaction
 
             })
-            .then((friendRemoved) => {
+              .then((friendRemoved) => {
 
-              return !!friendRemoved
+                return !!friendRemoved
 
-            })
+              })
 
           })
+            .catch((error) => handleError(error));
 
         })
+        .catch((error) => handleError(error));
 
     }
 

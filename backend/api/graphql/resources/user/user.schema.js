@@ -10,6 +10,7 @@ const userTypes = `
     createdAt: String!
     updatedAt: String!
     friends: [ Friend! ]!
+    posts: [ Post! ]!
 
   }
 

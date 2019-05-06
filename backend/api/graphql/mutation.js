@@ -11,7 +11,6 @@ const Mutation = `
     ${userMutations}
     ${postMutations}
     ${friendMutations}
-    ${likeMutations}
 
   }
 
