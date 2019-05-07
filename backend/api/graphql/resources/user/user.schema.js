@@ -25,6 +25,8 @@ const userTypes = `
 
   input UserUpdatePasswordInput {
 
+    oldpassword: String!
+    #novo password
     password: String!
 
   }

@@ -103,18 +103,15 @@ const userResolvers = {
       if (input.email !== undefined && input.username === undefined) {
 
         search.email = input.email;
-        search.password = input.password;
 
       } else if (input.email === undefined && input.username !== undefined) {
 
         search.username = input.username;
-        search.password = input.password;
 
       } else if (input.email !== undefined && input.username !== undefined) {
 
         search.username = input.username;
         search.email = input.email;
-        search.password = input.password;
 
       }
 
@@ -125,6 +122,10 @@ const userResolvers = {
 
         })
         .then((userInstance) => {
+
+          let errorMessage = 'user with username, password or email incorret or not exists';
+
+          throwError(!userInstance.isPassword(input.password, userInstance.get('password')), errorMessage);
 
           return createToken(userInstance.id);
 
@@ -191,6 +192,10 @@ const userResolvers = {
 
             // if (!userInstance) throw new Error(`user with id ${id} not found`);
             throwError(!userInstance, `user with id ${id} not found`);
+
+            let errorMessage = 'password provided incorrect ';
+
+            throwError(!userInstance.isPassword(input.oldpassword, userInstance.get('password')), errorMessage);
 
             return userInstance
               .update(input, {
