@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 const {
   JWT_SECRET,
   throwError
-} = require('./../../../../utils/utils');
+} = require('./../utils/utils');
 
-const verifyToken = (context) => {
+const verifyTokenController = (context) => {
 
   if (context.authUser){
 
@@ -22,13 +22,11 @@ const verifyToken = (context) => {
       if (decoded) { return true };
       throwError(error, 'token invalid');
 
-      
-
-    })
+    });
 
   } 
 
 
 }
 
-module.exports = verifyToken;
+module.exports = verifyTokenController;

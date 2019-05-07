@@ -1,5 +1,6 @@
 // meus imports
 const { handleError, throwError } = require('./../../../utils/utils');
+const { ValidateTokenController } = require('./../../../controllers/index');
 
 const postResolvers = {
 
@@ -68,8 +69,10 @@ const postResolvers = {
     },
     postByFriends: (parent, args, context, info) => {
 
-      // id mokado
-      let id = 1;
+      ValidateTokenController(context);
+
+      // id do token
+      let id = context.authUser.id;
 
       let { db } = context;
       let { first = 10, offset = 0 } = args;
@@ -113,11 +116,13 @@ const postResolvers = {
 
     createPost: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       let { input } = args;
       let { db } = context;
 
       // resolver isso, com autenticação no token
-      input.author = 1;
+      input.author = context.authUser.id;
 
       return db.sequelize.transaction((Transaction) => {
 
@@ -134,8 +139,10 @@ const postResolvers = {
     },
     updatePost: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
-      let idUSer = 1;
+      let idUSer = context.authUser.id;
 
       // id do post
       let { input, id } = args;
@@ -171,8 +178,10 @@ const postResolvers = {
     },
     deletePost: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // em baixo to pegando o id do post, tenho que aqui pegar o id do user pelo token pra passar num findOne
-      let idUser = 1;
+      let idUser = context.authUser.id;
 
       // id do post
       let { id } = args;
@@ -214,8 +223,10 @@ const postResolvers = {
     },
     addLike: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // id vindo do token
-      let id = 1;
+      let id = context.authUser.id;
 
       let { db } = context;
       let { idPost } = args;
@@ -255,8 +266,10 @@ const postResolvers = {
     },
     removeLike: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // id vindo do token
-      let id = 1;
+      let id = context.authUser.id;
 
       let { db } = context;
       let { idPost } = args;

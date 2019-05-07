@@ -57,10 +57,20 @@ const userQueries = `
 const userMutations = `
 
   createUser(input: UserCreateInput!): Token
-  updateUserPassword(id: ID!, input:UserUpdatePasswordInput!): Boolean
+
+  #informe o token no Header Authorization
+  updateUserPassword(input: UserUpdatePasswordInput!): Boolean
+
+  #informe o token no Header Authorization
   updateUserProfile(id: ID!, input: UserUpdateInput!): Boolean
+  
+  #informe o token no Header Authorization
   deleteUser(id:ID!): Boolean
+
+  #informe o token no Header Authorization
   addFriend(idFriend: ID!): Boolean
+  
+  #informe o token no Header Authorization
   removeFriend(idFriend: ID!): Boolean
 
 `;

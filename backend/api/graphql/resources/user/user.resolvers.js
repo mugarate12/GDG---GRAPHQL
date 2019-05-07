@@ -1,8 +1,11 @@
 // meus imports
 const { handleError, throwError } = require('./../../../utils/utils');
 const createToken = require('./../token/createToken');
-const authToken = require('./../token/validators/authValidator');
-const verifyToken = require('./../token/validators/verifyToken.validators');
+// const {
+//   authToken,
+//   verifyToken
+// } = require('./../token/validators/index');
+const { ValidateTokenController } = require('./../../../controllers/index');
 
 const userResolvers = {
 
@@ -51,8 +54,8 @@ const userResolvers = {
 
     users: (parent, args, context, info) => {
 
-      console.log(authToken(context));
-      console.log(verifyToken(context));
+      // ValidateTokenController(context);
+      // console.log(context.authUser.id);
 
       let { first = 10, offset = 0 } = args;
       let { db } = context;
@@ -97,17 +100,17 @@ const userResolvers = {
       let { input } = args;
       let search = {};
 
-      if ( input.email !== undefined && input.username === undefined){
+      if (input.email !== undefined && input.username === undefined) {
 
         search.email = input.email;
         search.password = input.password;
 
-      } else if (input.email === undefined && input.username !== undefined){
+      } else if (input.email === undefined && input.username !== undefined) {
 
         search.username = input.username;
         search.password = input.password;
 
-      } else if ( input.email !== undefined && input.username !== undefined ){
+      } else if (input.email !== undefined && input.username !== undefined) {
 
         search.username = input.username;
         search.email = input.email;
@@ -167,14 +170,16 @@ const userResolvers = {
           });
 
       })
-      .catch((error) => handleError(error));
+        .catch((error) => handleError(error));
 
     },
     updateUserPassword: (parent, args, context, info) => {
 
-      // id vem do token
-      let { input, id } = args;
-      id = parseInt(id);
+      ValidateTokenController(context);
+
+      // id do user vindo do token
+      let id = context.authUser.id;
+      let { input } = args;
 
       let { db } = context;
 
@@ -206,9 +211,11 @@ const userResolvers = {
     },
     updateUserProfile: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // id vem do token
-      let { input, id } = args;
-      id = parseInt(id);
+      let { input } = args;
+      let id = context.authUser.id;
 
       let { db } = context;
 
@@ -240,9 +247,10 @@ const userResolvers = {
     },
     deleteUser: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       // id vem do token
-      let { id } = args;
-      id = parseInt(id);
+      let id = context.authUser.id;
 
       let { db } = context;
 
@@ -274,8 +282,10 @@ const userResolvers = {
     },
     addFriend: (parent, args, context, info) => {
 
-      // mocado, isso virá do token
-      let id = 1;
+      ValidateTokenController(context);
+
+      // id do token
+      let id = context.authUser.id;
 
       let { idFriend } = args;
 
@@ -318,10 +328,12 @@ const userResolvers = {
     },
     removeFriend: (parent, args, context, info) => {
 
+      ValidateTokenController(context);
+
       let { db } = context;
 
-      // id mokado, virá do token
-      let id = 1;
+      // id do token
+      let id = context.authUser.id;
 
       let { idFriend } = args;
 
