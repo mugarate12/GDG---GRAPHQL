@@ -8,9 +8,19 @@ const graphQLHTTP = require('express-graphql');
 const schema = require('./graphql/schema');
 const db = require('./models/dbConnection');
 const extractJwtMiddleware = require('./middlewares/extract-jwt');
+const cors = require('cors');
 
 // criar instancia do servidor
 let app = express();
+
+// habilitar o cors
+app.use(cors({
+  origin: '*',
+  methods: ['POST', 'GET'],
+  optionsSuccessStatus: 204,
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept-Encoding'],
+  preflightContinue: false
+}));
 
 // middlewares
 app.use('/graphql',
