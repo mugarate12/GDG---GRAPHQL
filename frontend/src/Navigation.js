@@ -4,7 +4,8 @@ import {
 } from 'react-navigation';
 
 // minhas telas
-import Home from './index';
+// import Home from './index';
+import Home from './containers/SigninOrSingup';
 import B from './app';
 
 const AppNavigator = createStackNavigator({
