@@ -44,8 +44,8 @@ export class SigninOrSingup extends Component {
     name: '',
     username: '',
     email: '',
-    password: '',
-    usernameORemail: '',
+    password: 'majuge123',
+    usernameORemail: 'MorfeusMateus',
     login: true
 
   }

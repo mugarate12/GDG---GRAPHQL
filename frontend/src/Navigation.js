@@ -6,7 +6,8 @@ import {
 // minhas telas
 // import Home from './index';
 import Home from './containers/SigninOrSingup';
-import B from './app';
+// import B from './app';
+import B from './containers/Feed';
 
 const AppNavigator = createStackNavigator({
 

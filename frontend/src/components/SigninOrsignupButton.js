@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
-  AsyncStorage,
-  Alert
+  Alert,
+  AsyncStorage
 } from 'react-native';
+// import { AsyncStorage } from "@react-native-community/async-storage";
 
 import axiosInstance from './../config/axiosConfig';
 
@@ -44,6 +45,9 @@ const SigninOrsignupButton = (props) => {
 
           axiosInstance.defaults.headers.common['Authorization'] = `bearer ${graphQlData.data.data.loginUser.token}`;
   
+          AsyncStorage.setItem('userToken', graphQlData.data.data.loginUser.token);
+          
+
           props.navigation.navigate('B');
         
         }
@@ -81,6 +85,8 @@ const SigninOrsignupButton = (props) => {
         }else {
 
           axiosInstance.defaults.headers.common['Authorization'] = `bearer ${graphQlData.data.data.createUser.token}`;
+
+          AsyncStorage.setItem('userToken', graphQlData.data.data.loginUser.token);
   
           props.navigation.navigate('B');
 
