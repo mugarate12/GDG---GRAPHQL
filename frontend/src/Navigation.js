@@ -7,7 +7,8 @@ import {
 // import Home from './index';
 import Home from './containers/SigninOrSingup';
 // import B from './app';
-import B from './containers/Feed';
+// import B from './containers/Feed';
+import B from './containers/SearchUser';
 
 const AppNavigator = createStackNavigator({
 

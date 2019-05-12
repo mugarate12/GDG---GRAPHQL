@@ -189,21 +189,26 @@ const styles = StyleSheet.create({
     flex: 1,
     maxHeight: 200,
     width: '100%',
-    borderWidth: 2,
-    borderColor: 'red',
-    paddingHorizontal: 5
+    // borderWidth: 2,
+    // borderColor: 'red',
+    paddingHorizontal: 5,
+    paddingBottom: 8,
+    borderBottomColor: '#474239',
+    borderBottomWidth: 5
 
   },
   containerPostHeader: {
 
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingBottom: 10
 
   },
   containerPostBtns: {
 
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    paddingTop: 10
 
   },
   containerLikes: {
