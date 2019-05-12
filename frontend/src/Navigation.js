@@ -8,7 +8,8 @@ import {
 import Home from './containers/SigninOrSingup';
 // import B from './app';
 // import B from './containers/Feed';
-import B from './containers/SearchUser';
+// import B from './containers/SearchUser';
+import B from './containers/UserProfile';
 
 const AppNavigator = createStackNavigator({
 
