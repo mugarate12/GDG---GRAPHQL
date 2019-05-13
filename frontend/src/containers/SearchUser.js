@@ -77,6 +77,7 @@ export default class SearchUser extends Component {
             value={this.state.username}
             onchange={username => this.setState({ username })}
             placeholder='pesquise por username'
+            input={styles.input}
           />
           <TouchableOpacity
             onPress={() => this.getuser(this.state.username)}
@@ -153,6 +154,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 5
 
+  },
+  input: {
+    
   }
 
 });

@@ -11,7 +11,7 @@ const Input = (props) => {
   return (
     <View style={[styles.container, props.style]} >
       <TextInput
-        style={styles.input}
+        style={[styles.input, props.input]}
         onChangeText={props.onchange}
         value={props.value}
         placeholder={props.placeholder}
@@ -47,7 +47,9 @@ const styles = StyleSheet.create({
 
     fontSize: 15,
     width: '100%',
-    backgroundColor: '#3D4039'
+    backgroundColor: '#3D4039',
+    // borderWidth: 2,
+    // borderColor: 'red'
 
   }
 

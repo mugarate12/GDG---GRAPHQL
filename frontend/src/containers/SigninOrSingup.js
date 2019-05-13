@@ -54,10 +54,10 @@ export class SigninOrSingup extends Component {
 
     if (this.state.login) return (
       <View style={styles.container} >
-        <Input style={styles.input} value={this.state.name} onchange={name => this.setState({ name })} placeholder='digite um nome' />
-        <Input style={styles.input} value={this.state.username} onchange={username => this.setState({ username })} placeholder='digite um username' />
-        <Input style={styles.input} value={this.state.email} onchange={email => this.setState({ email })} placeholder='digite um email' />
-        <Input style={styles.input} value={this.state.password} onchange={password => this.setState({ password })} placeholder='digite um password' />
+        <Input input={styles.input} style={styles.input} value={this.state.name} onchange={name => this.setState({ name })} placeholder='digite um nome' />
+        <Input input={styles.input} style={styles.input} value={this.state.username} onchange={username => this.setState({ username })} placeholder='digite um username' />
+        <Input input={styles.input} style={styles.input} value={this.state.email} onchange={email => this.setState({ email })} placeholder='digite um email' />
+        <Input input={styles.input} style={styles.input} value={this.state.password} onchange={password => this.setState({ password })} placeholder='digite um password' />
         <SignBtn type='Create' option='signup' name={this.state.name} username={this.state.username} email={this.state.email} password={this.state.password} navigation={this.props.navigation} ></SignBtn>
         <TouchableOpacity
           style={styles.containerTxtLogin}
@@ -70,8 +70,8 @@ export class SigninOrSingup extends Component {
 
     if (!this.state.login) return (
       <View style={styles.container} >
-        <Input style={styles.input} value={this.state.usernameORemail} onchange={usernameORemail => this.setState({ usernameORemail })} placeholder='email ou usuario' />
-        <Input style={styles.input} value={this.state.password} onchange={password => this.setState({ password })} placeholder='digite um password' />
+        <Input input={styles.input} style={styles.input} value={this.state.usernameORemail} onchange={usernameORemail => this.setState({ usernameORemail })} placeholder='email ou usuario' />
+        <Input input={styles.input} style={styles.input} value={this.state.password} onchange={password => this.setState({ password })} placeholder='digite um password' />
         <SignBtn type='Login' option='signin' usernameORemail={this.state.usernameORemail} password={this.state.password} navigation={this.props.navigation} ></SignBtn>
         <TouchableOpacity
           style={styles.containerTxtLogin}
@@ -124,6 +124,11 @@ const styles = StyleSheet.create({
 
     color: 'white'
 
+  },
+  input: {
+
+
+    
   }
 
 });

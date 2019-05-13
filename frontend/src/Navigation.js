@@ -7,9 +7,10 @@ import {
 // import Home from './index';
 import Home from './containers/SigninOrSingup';
 // import B from './app';
-// import B from './containers/Feed';
+import Feed from './containers/Feed';
 // import B from './containers/SearchUser';
-import B from './containers/UserProfile';
+import UserProfile from './containers/UserProfile';
+import B from './containers/Post';
 
 const AppNavigator = createStackNavigator({
 
@@ -21,6 +22,16 @@ const AppNavigator = createStackNavigator({
   B: {
 
     screen: B
+
+  },
+  Feed: {
+
+    screen: Feed
+
+  },
+  UserProfile: {
+
+    screen: UserProfile
 
   }
 

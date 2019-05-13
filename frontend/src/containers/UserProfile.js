@@ -4,7 +4,8 @@ import {
   View,
   StyleSheet,
   Alert,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
 
 import axiosInstance from './../config/axiosConfig';
@@ -27,7 +28,7 @@ export default class UserProfile extends Component {
 
     let query = `
     query {
-      user(username: "Cicraninho"){
+      user(username: "MorfeusMateus"){
         name,
         username,
         about,
@@ -67,7 +68,7 @@ export default class UserProfile extends Component {
   renderUser = () => {
 
     return (
-      <View style={styles.containerUser} >
+      <ScrollView style={styles.containerUser} >
         <Text style={styles.txtName} >{this.state.user.name}</Text>
         <Text style={styles.txtUsername} >{this.state.user.username}</Text>
         <Text style={styles.txtAbout} >{this.state.user.about}</Text>
@@ -76,7 +77,7 @@ export default class UserProfile extends Component {
           renderItem={this._renderItem}
           keyExtractor={(item, index) => item.id}
         />
-      </View>
+      </ScrollView>
     )
 
   }
