@@ -53,6 +53,7 @@ const userQueries = `
   users(first: Int, offset: Int): [ User! ]!
   user(username: String!): User
   loginUser(input: LoginInput): Token
+  currentUser: User
 
 `;
 

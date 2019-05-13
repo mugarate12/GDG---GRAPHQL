@@ -136,6 +136,25 @@ const userResolvers = {
 
         })
 
+    },
+    currentUser: (parent, args, context, info) => {
+
+      ValidateTokenController(context);
+
+      let { db } = context;
+      let id = context.authUser.id;
+
+      return db.user
+        .findByPk(id)
+        .then((userInstance) => {
+
+          throwError(!userInstance, 'user invalid');
+
+          return userInstance
+
+        })
+        .catch((error) => handleError(error));
+
     }
 
   },
