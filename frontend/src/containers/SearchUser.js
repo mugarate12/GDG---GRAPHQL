@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
   containerbtn: {
 
     flex: 0.2,
-    borderWidth: 4,
-    borderColor: 'red',
+    // borderWidth: 4,
+    // borderColor: 'red',
     justifyContent: 'center',
     alignItems: 'center'
 

@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: '100%',
     backgroundColor: '#3D4039',
+    color: 'white'
     // borderWidth: 2,
     // borderColor: 'red'
 
